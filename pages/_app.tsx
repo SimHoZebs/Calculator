@@ -1,24 +1,15 @@
 import * as React from "react"
+import "tailwindcss/tailwind.css"
 import Head from "next/head"
 import { AppProps } from "next/app"
-import { ThemeProvider } from "@mui/material/styles"
-import CssBaseline from "@mui/material/CssBaseline"
-import { CacheProvider, EmotionCache } from "@emotion/react"
-import theme from "../lib/theme"
-import createEmotionCache from "../lib/createEmotionCache"
 
-// Client-side cache, shared for the whole session of the user in the browser.
-const clientSideEmotionCache = createEmotionCache()
-
-interface MyAppProps extends AppProps {
-  emotionCache?: EmotionCache
-}
+interface MyAppProps extends AppProps {}
 
 export default function MyApp(props: MyAppProps) {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
+  const { Component, pageProps } = props
 
   return (
-    <CacheProvider value={emotionCache}>
+    <>
       <Head>
         <meta charSet="utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
@@ -46,10 +37,7 @@ export default function MyApp(props: MyAppProps) {
         <link rel="apple-touch-icon" href="/apple-icon.png"></link>
         <meta name="theme-color" content="#317EFB" />
       </Head>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Component {...pageProps} />
-      </ThemeProvider>
-    </CacheProvider>
+      <Component {...pageProps} />
+    </>
   )
 }
