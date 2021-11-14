@@ -7,10 +7,6 @@ interface Props {
 }
 
 const Button = (props: Props) => {
-  const numKeyColor = "bg-gray-300 dark:bg-gray-700"
-
-  const operatorColor = "bg-purple-300 dark:bg-purple-400 text-gray-900"
-
   function btnPress() {
     if (typeof props.children === "number") {
       props.setInput((prev) => prev + `${props.children}`)
@@ -35,8 +31,11 @@ const Button = (props: Props) => {
   return (
     <button
       className={`${
-        props.isOperator ? operatorColor : numKeyColor
-      } h-20 w-20 rounded-full text-4xl`}
+        props.isOperator
+          ? "bg-purple-300 dark:bg-purple-400 text-gray-900"
+          : "bg-gray-300 dark:bg-gray-700"
+      }
+          h-20 w-20 rounded-full text-3xl`}
       onClick={btnPress}
     >
       {props.children}
