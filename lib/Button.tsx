@@ -7,10 +7,9 @@ interface Props {
 
 const Button = (props: Props) => {
   const numKeyColor =
-    "bg-gray-500 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+    "bg-gray-300 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
 
-  const operatorColor =
-    "bg-blue-800 dark:bg-blue-500 text-gray-100 dark:text-gray-900"
+  const operatorColor = "bg-purple-300 dark:bg-purple-400 text-gray-900"
 
   return (
     <button

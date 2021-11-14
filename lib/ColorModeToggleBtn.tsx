@@ -28,7 +28,7 @@ const ColorModeToggleBtn = () => {
 
   return (
     <button
-      className="bg-purple-600 dark:bg-purple-400 p-3 rounded-md"
+      className="bg-purple-300 dark:bg-purple-400 p-3 rounded-md"
       onClick={toggleColorMode}
     >
       {isDarkMode ? dark : light}
