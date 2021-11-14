@@ -1,11 +1,9 @@
-import * as React from "react"
+import React from "react"
 import "tailwindcss/tailwind.css"
 import Head from "next/head"
 import { AppProps } from "next/app"
 
-interface MyAppProps extends AppProps {}
-
-export default function MyApp(props: MyAppProps) {
+export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props
 
   return (
