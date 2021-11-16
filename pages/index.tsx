@@ -1,11 +1,8 @@
 import { useState } from "react"
-import Button from "../lib/Button"
 import ColorModeToggleBtn from "../lib/ColorModeToggleBtn"
+import Keypad from "../lib/Keypad"
 
 export default function Home() {
-  const numArray = [7, 8, 9, 4, 5, 6, 1, 2, 3, 0, ".", "DEL"]
-  const topOperatoryArray = ["AC", "( )", "%"]
-  const operatorArray = ["=", "+", "-", "*", "/"]
   const [input, setInput] = useState("")
 
   return (
@@ -19,30 +16,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="h-2/3">
-        <div className="flex flex-column gap-2 justify-center">
-          <div className=" grid grid-cols-3 justify-end content-end gap-2">
-            {topOperatoryArray.map((operator, index) => (
-              <Button key={index} isOperator setInput={setInput}>
-                {operator}
-              </Button>
-            ))}
-            {numArray.map((num) => (
-              <Button key={num} setInput={setInput}>
-                {num}
-              </Button>
-            ))}
-          </div>
-
-          <div className="flex flex-wrap-reverse w-min content-end gap-2">
-            {operatorArray.map((operator, index) => (
-              <Button key={index} isOperator setInput={setInput}>
-                {operator}
-              </Button>
-            ))}
-          </div>
-        </div>
-      </section>
+      <Keypad setInput={setInput} />
     </div>
   )
 }
