@@ -11,5 +11,6 @@ module.exports = withPWA({
   webpack(config) {
     config.plugins.push(new WindiCSSWebpackPlugin())
     return config
-  }
+  },
+  reactStrictMode: true,
 })
