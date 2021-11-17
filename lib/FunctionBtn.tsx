@@ -9,6 +9,7 @@ interface Props {
 
 const FunctionBtn = (props: Props) => {
   const [icon, setIcon] = useState<JSX.Element | string>(questionMark)
+  const [isClosingBracket, setIsClosingBracket] = useState<boolean>(false)
 
   function btnPress() {
     switch (props.function) {
@@ -20,6 +21,10 @@ const FunctionBtn = (props: Props) => {
         break
       case "=":
         props.setInput((prev) => Function("return(" + prev + ")")())
+        break
+      case "( )":
+        props.setInput((prev) => `${prev} ${isClosingBracket ? ")" : "("} `)
+        setIsClosingBracket(!isClosingBracket)
         break
       default:
         props.setInput((prev) => `${prev} ${props.function} `)
