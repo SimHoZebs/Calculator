@@ -17,7 +17,7 @@ export default function MyApp(props: AppProps) {
         />
         <meta name="description" content="Description" />
         <meta name="keywords" content="Keywords" />
-        <title>Next.js PWA Example</title>
+        <title>Zebs&apos; calculator app</title>
 
         <link rel="manifest" href="/manifest.json" />
         <link
