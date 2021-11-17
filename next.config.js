@@ -1,5 +1,6 @@
 const withPWA = require('next-pwa')
 const runtimeCaching = require('next-pwa/cache')
+const WindiCSSWebpackPlugin = require('windicss-webpack-plugin')
 
 module.exports = withPWA({
   pwa: {
@@ -7,4 +8,8 @@ module.exports = withPWA({
     runtimeCaching,
     mode: 'production',
   },
+  webpack(config) {
+    config.plugins.push(new WindiCSSWebpackPlugin())
+    return config
+  }
 })

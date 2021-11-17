@@ -1,6 +1,6 @@
 import React from "react"
-import "tailwindcss/tailwind.css"
 import Head from "next/head"
+import "windi.css"
 import { AppProps } from "next/app"
 
 export default function MyApp(props: AppProps) {
