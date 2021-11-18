@@ -1,15 +1,19 @@
-import React from "react"
-import Button from "./NumBtn"
+import React, { useState } from "react"
+import NumBtn from "./NumBtn"
 import FunctionBtn from "./FunctionBtn"
 
 interface Props {
   setInput: React.Dispatch<React.SetStateAction<string>>
+  setReturnPressed: React.Dispatch<React.SetStateAction<boolean>>
+  returnPressed: boolean
 }
 
 const Keypad = (props: Props) => {
   const numArray = [7, 8, 9, 4, 5, 6, 1, 2, 3, 0, "."]
   const topOperatoryArray = ["AC", "( )", "%"]
   const operatorArray = ["=", "+", "-", "*", "/"]
+  const [state, setState] = useState<boolean>(false)
+  const bracket = { isClosing: state, setState: setState }
 
   return (
     <section className="h-2/3">
@@ -20,12 +24,27 @@ const Keypad = (props: Props) => {
               key={index}
               function={operator}
               setInput={props.setInput}
+              setReturnPressed={props.setReturnPressed}
+              bracket={bracket}
             />
           ))}
+
           {numArray.map((num) => (
-            <Button key={num} value={num} setInput={props.setInput} />
+            <NumBtn
+              key={num}
+              value={num}
+              setInput={props.setInput}
+              setReturnPressed={props.setReturnPressed}
+              returnPressed={props.returnPressed}
+            />
           ))}
-          <FunctionBtn function="DEL" setInput={props.setInput} />
+
+          <FunctionBtn
+            function="DEL"
+            setInput={props.setInput}
+            setReturnPressed={props.setReturnPressed}
+            bracket={bracket}
+          />
         </div>
 
         <div className="flex flex-wrap-reverse w-min content-end gap-2">
@@ -34,6 +53,8 @@ const Keypad = (props: Props) => {
               key={index}
               function={operator}
               setInput={props.setInput}
+              setReturnPressed={props.setReturnPressed}
+              bracket={bracket}
             />
           ))}
         </div>

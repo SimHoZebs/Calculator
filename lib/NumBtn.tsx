@@ -5,14 +5,21 @@ interface Props {
   isOperator?: boolean
   setInput: React.Dispatch<React.SetStateAction<string>>
   value: string | number
+  setReturnPressed: React.Dispatch<React.SetStateAction<boolean>>
+  returnPressed: boolean
 }
 
 const Button = (props: Props) => {
-  return (
-    <BtnBase onClick={() => props.setInput((prev) => prev + `${props.value}`)}>
-      {props.value}
-    </BtnBase>
-  )
+  function btnPress() {
+    if (props.returnPressed) {
+      props.setReturnPressed(false)
+      props.setInput(`${props.value}`)
+    } else {
+      props.setInput((prev) => prev + `${props.value}`)
+    }
+  }
+
+  return <BtnBase onClick={btnPress}>{props.value}</BtnBase>
 }
 
 export default Button

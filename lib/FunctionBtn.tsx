@@ -5,11 +5,15 @@ import { add, backspace, multiply, questionMark, subtract } from "./Icons"
 interface Props {
   function: string
   setInput: React.Dispatch<React.SetStateAction<string>>
+  setReturnPressed: React.Dispatch<React.SetStateAction<boolean>>
+  bracket: {
+    isClosing: boolean
+    setState: React.Dispatch<React.SetStateAction<boolean>>
+  }
 }
 
 const FunctionBtn = (props: Props) => {
   const [icon, setIcon] = useState<JSX.Element | string>(questionMark)
-  const [isClosingBracket, setIsClosingBracket] = useState<boolean>(false)
 
   function btnPress() {
     switch (props.function) {
@@ -21,10 +25,13 @@ const FunctionBtn = (props: Props) => {
         break
       case "=":
         props.setInput((prev) => Function("return(" + prev + ")")())
+        props.setReturnPressed(true)
         break
       case "( )":
-        props.setInput((prev) => `${prev} ${isClosingBracket ? ")" : "("} `)
-        setIsClosingBracket(!isClosingBracket)
+        props.setInput(
+          (prev) => `${prev} ${props.bracket.isClosing ? ")" : "("} `
+        )
+        props.bracket.setState(!props.bracket.isClosing)
         break
       default:
         props.setInput((prev) => `${prev} ${props.function} `)
