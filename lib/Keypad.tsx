@@ -16,48 +16,46 @@ const Keypad = (props: Props) => {
   const bracket = { isClosing: state, setState: setState };
 
   return (
-    <section className="h-2/3">
-      <div className="flex flex-column gap-2 justify-center">
-        <div className=" grid grid-cols-3 justify-end content-end gap-2">
-          {topOperatoryArray.map((operator, index) => (
-            <FunctionBtn
-              key={index}
-              function={operator}
-              setInput={props.setInput}
-              setReturnPressed={props.setReturnPressed}
-              bracket={bracket}
-            />
-          ))}
-
-          {numArray.map((num) => (
-            <NumBtn
-              key={num}
-              value={num}
-              setInput={props.setInput}
-              setReturnPressed={props.setReturnPressed}
-              returnPressed={props.returnPressed}
-            />
-          ))}
-
+    <section className="h-[calc(125vw)] flex w-full justify-center gap-x-2">
+      <div className="grid grid-cols-3 grid-rows-5 w-3/4 flex-wrap content-start gap-2">
+        {topOperatoryArray.map((operator, index) => (
           <FunctionBtn
-            function="DEL"
+            key={index}
+            function={operator}
             setInput={props.setInput}
             setReturnPressed={props.setReturnPressed}
             bracket={bracket}
           />
-        </div>
+        ))}
 
-        <div className="flex flex-wrap-reverse w-min content-end gap-2">
-          {operatorArray.map((operator, index) => (
-            <FunctionBtn
-              key={index}
-              function={operator}
-              setInput={props.setInput}
-              setReturnPressed={props.setReturnPressed}
-              bracket={bracket}
-            />
-          ))}
-        </div>
+        {numArray.map((num) => (
+          <NumBtn
+            key={num}
+            value={num}
+            setInput={props.setInput}
+            setReturnPressed={props.setReturnPressed}
+            returnPressed={props.returnPressed}
+          />
+        ))}
+
+        <FunctionBtn
+          function="DEL"
+          setInput={props.setInput}
+          setReturnPressed={props.setReturnPressed}
+          bracket={bracket}
+        />
+      </div>
+
+      <div className="grid grid-rows-5 content-end gap-y-2 w-1/4">
+        {operatorArray.map((operator, index) => (
+          <FunctionBtn
+            key={index}
+            function={operator}
+            setInput={props.setInput}
+            setReturnPressed={props.setReturnPressed}
+            bracket={bracket}
+          />
+        ))}
       </div>
     </section>
   );

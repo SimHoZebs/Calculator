@@ -1,4 +1,4 @@
-import { defineConfig } from 'windicss/helpers'
+import { defineConfig } from 'windicss/helpers';
 
 export default defineConfig({
   extract: {
@@ -14,5 +14,5 @@ export default defineConfig({
         "roboto": ['Roboto', 'system-ui']
       }
     }
-  }
-})
+  },
+});
