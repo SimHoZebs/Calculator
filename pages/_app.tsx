@@ -1,10 +1,10 @@
-import React from "react"
-import Head from "next/head"
-import "windi.css"
-import { AppProps } from "next/app"
+import React from "react";
+import Head from "next/head";
+import "windi.css";
+import { AppProps } from "next/app";
 
 export default function MyApp(props: AppProps) {
-  const { Component, pageProps } = props
+  const { Component, pageProps } = props;
 
   return (
     <>
@@ -38,5 +38,5 @@ export default function MyApp(props: AppProps) {
       </Head>
       <Component {...pageProps} />
     </>
-  )
+  );
 }

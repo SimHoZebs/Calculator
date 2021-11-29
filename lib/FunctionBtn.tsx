@@ -1,66 +1,66 @@
-import React, { useEffect, useState } from "react"
-import BtnBase from "./BtnBase"
-import { add, backspace, multiply, questionMark, subtract } from "./Icons"
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import BtnBase from "./BtnBase";
+import { add, backspace, multiply, questionMark, subtract } from "./Icons";
 
 interface Props {
-  function: string
-  setInput: React.Dispatch<React.SetStateAction<string>>
-  setReturnPressed: React.Dispatch<React.SetStateAction<boolean>>
+  function: string;
+  setInput: Dispatch<SetStateAction<string>>;
+  setReturnPressed: Dispatch<SetStateAction<boolean>>;
   bracket: {
-    isClosing: boolean
-    setState: React.Dispatch<React.SetStateAction<boolean>>
-  }
+    isClosing: boolean;
+    setState: Dispatch<SetStateAction<boolean>>;
+  };
 }
 
 const FunctionBtn = (props: Props) => {
-  const [icon, setIcon] = useState<JSX.Element | string>(questionMark)
+  const [icon, setIcon] = useState<JSX.Element | string>(questionMark);
 
   function btnPress() {
     switch (props.function) {
       case "AC":
-        props.setInput("")
-        break
+        props.setInput("");
+        break;
       case "DEL":
-        props.setInput((prev) => prev.slice(0, -1))
-        break
+        props.setInput((prev) => prev.slice(0, -1));
+        break;
       case "=":
-        props.setInput((prev) => Function("return(" + prev + ")")())
-        props.setReturnPressed(true)
-        break
+        props.setInput((prev) => Function("return(" + prev + ")")());
+        props.setReturnPressed(true);
+        break;
       case "( )":
         props.setInput(
           (prev) => `${prev} ${props.bracket.isClosing ? ")" : "("} `
-        )
-        props.bracket.setState(!props.bracket.isClosing)
-        break
+        );
+        props.bracket.setState(!props.bracket.isClosing);
+        break;
       default:
-        props.setInput((prev) => `${prev} ${props.function} `)
-        break
+        props.setInput((prev) => `${prev} ${props.function} `);
+        break;
     }
   }
 
   useEffect(() => {
     switch (props.function) {
       case "DEL":
-        setIcon(backspace)
-        break
+        setIcon(backspace);
+        break;
       case "+":
-        setIcon(add)
-        break
+        setIcon(add);
+        break;
       case "-":
-        setIcon(subtract)
-        break
+        setIcon(subtract);
+        break;
       case "*":
-        setIcon(multiply)
-        break
+        setIcon(multiply);
+        break;
       case "/":
-        setIcon("÷")
-        break
+        setIcon("÷");
+        break;
       default:
-        setIcon(props.function)
-        break
+        setIcon(props.function);
+        break;
     }
-  }, [props.function])
+  }, [props.function]);
 
   return (
     <BtnBase
@@ -69,7 +69,7 @@ const FunctionBtn = (props: Props) => {
     >
       <div className="h-9 w-9 ">{icon}</div>
     </BtnBase>
-  )
-}
+  );
+};
 
-export default FunctionBtn
+export default FunctionBtn;
