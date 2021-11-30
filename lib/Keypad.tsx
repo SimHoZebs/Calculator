@@ -16,7 +16,7 @@ const Keypad = (props: Props) => {
   const bracket = { isClosing: state, setState: setState };
 
   return (
-    <section className="h-[calc(125vw)] flex w-full justify-center gap-x-2">
+    <section className="h-120vw max-h-27rem flex w-full max-w-21.5rem justify-center gap-x-2 self-center">
       <div className="grid grid-cols-3 grid-rows-5 w-3/4 flex-wrap content-start gap-2">
         {topOperatoryArray.map((operator, index) => (
           <FunctionBtn
@@ -46,7 +46,7 @@ const Keypad = (props: Props) => {
         />
       </div>
 
-      <div className="grid grid-rows-5 content-end gap-y-2 w-1/4">
+      <div className="grid grid-rows-5 content-end gap-2 w-[calc(25%-0.5rem)]">
         {operatorArray.map((operator, index) => (
           <FunctionBtn
             key={index}
