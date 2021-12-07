@@ -30,7 +30,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex flex-col justify-center font-roboto h-screen w-screen bg-gray-100 dark:bg-gray-800 p-2 text-gray-900 dark:text-gray-100">
+    <div className="flex flex-col font-roboto h-screen w-screen bg-gray-100 dark:bg-gray-800 p-2 text-gray-900 dark:text-gray-100">
       <section className="h-1/3 flex flex-col items-center">
         <div className="flex self-end">
           <ColorModeToggleBtn
