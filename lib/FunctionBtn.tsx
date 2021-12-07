@@ -1,19 +1,20 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import BtnBase from "./BtnBase";
 import { add, backspace, multiply, subtract } from "./Icons";
-import { handleInput, Keypad } from "./Keypad";
+import { handleInput } from "./Keypad";
+import { Calc } from "../pages";
 
 interface Props {
   function: string;
   setInput: Dispatch<SetStateAction<string>>;
-  keypad: Keypad;
-  setKeypad: Dispatch<SetStateAction<Keypad>>;
+  calc: Calc;
+  setCalc: Dispatch<SetStateAction<Calc>>;
 }
 
 const FunctionBtn = (props: Props) => {
   const [icon, setIcon] = useState<JSX.Element | string>("");
   function resetKeypad() {
-    props.setKeypad((prev) => ({
+    props.setCalc((prev) => ({
       ...prev,
       bracketIsClosing: false,
       bracketCount: 0,
@@ -30,7 +31,7 @@ const FunctionBtn = (props: Props) => {
 
       case "DEL":
         props.setInput((prev) =>
-          props.keypad.bracketIsClosing
+          props.calc.bracketIsClosing
             ? prev.slice(0, -2) + ")"
             : prev.slice(0, -1)
         );
@@ -39,7 +40,7 @@ const FunctionBtn = (props: Props) => {
       case "=":
         props.setInput((prev) => {
           try {
-            return Function("return(" + prev + ")")();
+            return `${Function("return(" + prev + ")")()}`;
           } catch (error) {
             return "invalid syntax";
           }
@@ -48,7 +49,7 @@ const FunctionBtn = (props: Props) => {
         break;
 
       case ")":
-        props.setKeypad((prev) => ({
+        props.setCalc((prev) => ({
           ...prev,
           bracketCount: prev.bracketCount === 0 ? 0 : prev.bracketCount - 1,
           bracketIsClosing: false,
@@ -57,16 +58,16 @@ const FunctionBtn = (props: Props) => {
       default:
         if (
           (props.function === "*" || props.function === "/") &&
-          !props.keypad.funcDisabled
+          !props.calc.funcDisabled
         ) {
-          props.setKeypad((prev) => ({ ...prev, funcDisabled: true }));
+          props.setCalc((prev) => ({ ...prev, funcDisabled: true }));
         } else if (props.function === "(") {
-          props.setKeypad((prev) => ({
+          props.setCalc((prev) => ({
             ...prev,
             bracketCount: prev.bracketCount + 1,
           }));
         }
-        handleInput(props.function, props.setInput, props.keypad.bracketCount);
+        handleInput(props.function, props.setInput, props.calc.bracketCount);
 
         break;
     }
