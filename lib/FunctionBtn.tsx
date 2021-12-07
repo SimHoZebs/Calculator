@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import BtnBase from "./BtnBase";
 import { add, backspace, multiply, subtract } from "./Icons";
-import { Keypad } from "./Keypad";
+import { handleInput, Keypad } from "./Keypad";
 
 interface Props {
   function: string;
@@ -20,8 +20,10 @@ const FunctionBtn = (props: Props) => {
         props.setKeypad((prev) => ({
           ...prev,
           bracketIsClosing: false,
+          bracketCount: 0,
         }));
         break;
+
       case "DEL":
         props.setInput((prev) =>
           props.keypad.bracketIsClosing
@@ -29,6 +31,7 @@ const FunctionBtn = (props: Props) => {
             : prev.slice(0, -1)
         );
         break;
+
       case "=":
         props.setInput((prev) => {
           try {
@@ -44,34 +47,24 @@ const FunctionBtn = (props: Props) => {
           bracketIsClosing: false,
         }));
         break;
-      case "(":
-        props.setInput(
-          (prev) => `${prev}(${props.keypad.bracketIsClosing ? "" : ")"}`
-        );
-        props.setKeypad((prev) => ({
-          ...prev,
-          bracketIsClosing: true,
-        }));
-        break;
+
       case ")":
         props.setKeypad((prev) => ({ ...prev, bracketIsClosing: false }));
+        break;
       default:
-        if (props.function === "+" || props.function === "-") {
-          props.setInput((prev) => prev + props.function);
-        } else if (props.function === "*" || props.function === "/") {
-          if (!props.keypad.funcDisabled) {
-            props.setInput((prev) => prev + props.function);
-            props.setKeypad((prev) => ({ ...prev, funcDisabled: true }));
-          }
+        if (
+          (props.function === "*" || props.function === "/") &&
+          !props.keypad.funcDisabled
+        ) {
+          props.setKeypad((prev) => ({ ...prev, funcDisabled: true }));
+        } else if (props.function === "(") {
+          props.setKeypad((prev) => ({
+            ...prev,
+            bracketCount: prev.bracketCount + 1,
+          }));
         }
+        handleInput(props.function, props.setInput, props.keypad.bracketCount);
 
-        if (props.keypad.bracketIsClosing) {
-          props.setInput((prev) => {
-            const splitInput = prev.split(")");
-            console.log(splitInput);
-            return splitInput[0].trimEnd() + splitInput[1] + ")";
-          });
-        }
         break;
     }
   }

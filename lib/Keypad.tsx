@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import NumBtn from "./NumBtn";
 import FunctionBtn from "./FunctionBtn";
 
@@ -10,7 +10,30 @@ export type Keypad = {
   bracketIsClosing: boolean;
   funcDisabled: boolean;
   returnPressed: boolean;
+  bracketCount: number;
 };
+
+export function handleInput(
+  input: string,
+  setInput: Dispatch<SetStateAction<string>>,
+  bracketCount: number
+) {
+  setInput((prev) => {
+    if (input === "(") {
+      input = "()";
+    }
+
+    if (bracketCount === 0) {
+      return prev + input;
+    } else {
+      return (
+        prev.slice(0, prev.length - bracketCount) +
+        input +
+        ")".repeat(bracketCount)
+      );
+    }
+  });
+}
 
 const Keypad = (props: Props) => {
   const numArray = [7, 8, 9, 4, 5, 6, 1, 2, 3, 0, "."];
@@ -20,6 +43,7 @@ const Keypad = (props: Props) => {
     bracketIsClosing: false,
     funcDisabled: true,
     returnPressed: false,
+    bracketCount: 0,
   });
 
   return (
