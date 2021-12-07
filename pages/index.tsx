@@ -4,7 +4,6 @@ import Keypad from "../lib/Keypad";
 
 export default function Home() {
   const [input, setInput] = useState("");
-  const [returnPressed, setReturnPressed] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
   useEffect(() => {
@@ -31,11 +30,7 @@ export default function Home() {
         </div>
       </section>
 
-      <Keypad
-        setInput={setInput}
-        returnPressed={returnPressed}
-        setReturnPressed={setReturnPressed}
-      />
+      <Keypad setInput={setInput} />
     </div>
   );
 }

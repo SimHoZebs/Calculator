@@ -1,19 +1,17 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import BtnBase from "./BtnBase";
-import { add, backspace, multiply, questionMark, subtract } from "./Icons";
+import { add, backspace, multiply, subtract } from "./Icons";
+import { Keypad } from "./Keypad";
 
 interface Props {
   function: string;
   setInput: Dispatch<SetStateAction<string>>;
-  setReturnPressed: Dispatch<SetStateAction<boolean>>;
-  bracket: {
-    isClosing: boolean;
-    setState: Dispatch<SetStateAction<boolean>>;
-  };
+  keypad: Keypad;
+  setKeypad: Dispatch<SetStateAction<Keypad>>;
 }
 
 const FunctionBtn = (props: Props) => {
-  const [icon, setIcon] = useState<JSX.Element | string>(questionMark);
+  const [icon, setIcon] = useState<JSX.Element | string>("");
 
   function btnPress() {
     switch (props.function) {
@@ -24,18 +22,37 @@ const FunctionBtn = (props: Props) => {
         props.setInput((prev) => prev.slice(0, -1));
         break;
       case "=":
-        props.setInput((prev) => Function("return(" + prev + ")")());
-        props.setReturnPressed(true);
+        props.setInput((prev) => {
+          try {
+            return Function("return(" + prev + ")")();
+          } catch (error) {
+            return "invalid syntax";
+          }
+        });
+        props.setKeypad((prev) => ({
+          ...prev,
+          funcDisabled: true,
+          returnPressed: true,
+        }));
         break;
       case "( )":
         props.setInput(
-          (prev) => `${prev} ${props.bracket.isClosing ? ")" : "("} `
+          (prev) => `${prev} ${props.keypad.bracketIsClosing ? ")" : "("} `
         );
-        props.bracket.setState(!props.bracket.isClosing);
+        props.setKeypad((prev) => ({
+          ...prev,
+          bracketIsClosing: !prev.bracketIsClosing,
+        }));
         break;
-      default:
+    }
+
+    if (props.function === "+" || props.function === "-") {
+      props.setInput((prev) => `${prev} ${props.function} `);
+    } else if (props.function === "*" || props.function === "/") {
+      if (!props.keypad.funcDisabled) {
         props.setInput((prev) => `${prev} ${props.function} `);
-        break;
+        props.setKeypad((prev) => ({ ...prev, funcDisabled: true }));
+      }
     }
   }
 
@@ -67,7 +84,7 @@ const FunctionBtn = (props: Props) => {
       className="bg-purple-300 dark:bg-purple-400 text-gray-900 flex justify-center items-center"
       onClick={btnPress}
     >
-      <div className="h-9 w-9 ">{icon}</div>
+      <div className="h-9 w-9">{icon}</div>
     </BtnBase>
   );
 };

@@ -4,16 +4,23 @@ import FunctionBtn from "./FunctionBtn";
 
 interface Props {
   setInput: React.Dispatch<React.SetStateAction<string>>;
-  setReturnPressed: React.Dispatch<React.SetStateAction<boolean>>;
-  returnPressed: boolean;
 }
+
+export type Keypad = {
+  bracketIsClosing: boolean;
+  funcDisabled: boolean;
+  returnPressed: boolean;
+};
 
 const Keypad = (props: Props) => {
   const numArray = [7, 8, 9, 4, 5, 6, 1, 2, 3, 0, "."];
   const topOperatoryArray = ["AC", "( )", "%"];
   const operatorArray = ["=", "+", "-", "*", "/"].reverse();
-  const [state, setState] = useState<boolean>(false);
-  const bracket = { isClosing: state, setState: setState };
+  const [keypad, setKeypad] = useState({
+    bracketIsClosing: false,
+    funcDisabled: true,
+    returnPressed: false,
+  });
 
   return (
     <section className="h-120vw max-h-27rem flex w-full max-w-21.5rem justify-center gap-x-2 self-center">
@@ -23,8 +30,8 @@ const Keypad = (props: Props) => {
             key={index}
             function={operator}
             setInput={props.setInput}
-            setReturnPressed={props.setReturnPressed}
-            bracket={bracket}
+            keypad={keypad}
+            setKeypad={setKeypad}
           />
         ))}
 
@@ -33,16 +40,16 @@ const Keypad = (props: Props) => {
             key={num}
             value={num}
             setInput={props.setInput}
-            setReturnPressed={props.setReturnPressed}
-            returnPressed={props.returnPressed}
+            keypad={keypad}
+            setKeypad={setKeypad}
           />
         ))}
 
         <FunctionBtn
           function="DEL"
           setInput={props.setInput}
-          setReturnPressed={props.setReturnPressed}
-          bracket={bracket}
+          keypad={keypad}
+          setKeypad={setKeypad}
         />
       </div>
 
@@ -52,8 +59,8 @@ const Keypad = (props: Props) => {
             key={index}
             function={operator}
             setInput={props.setInput}
-            setReturnPressed={props.setReturnPressed}
-            bracket={bracket}
+            keypad={keypad}
+            setKeypad={setKeypad}
           />
         ))}
       </div>
