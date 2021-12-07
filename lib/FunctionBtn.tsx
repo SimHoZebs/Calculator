@@ -12,16 +12,20 @@ interface Props {
 
 const FunctionBtn = (props: Props) => {
   const [icon, setIcon] = useState<JSX.Element | string>("");
+  function resetKeypad() {
+    props.setKeypad((prev) => ({
+      ...prev,
+      bracketIsClosing: false,
+      bracketCount: 0,
+      funcDisabled: true,
+    }));
+  }
 
   function btnPress() {
     switch (props.function) {
       case "AC":
         props.setInput("");
-        props.setKeypad((prev) => ({
-          ...prev,
-          bracketIsClosing: false,
-          bracketCount: 0,
-        }));
+        resetKeypad();
         break;
 
       case "DEL":
@@ -40,16 +44,15 @@ const FunctionBtn = (props: Props) => {
             return "invalid syntax";
           }
         });
-        props.setKeypad((prev) => ({
-          ...prev,
-          funcDisabled: true,
-          returnPressed: true,
-          bracketIsClosing: false,
-        }));
+        resetKeypad();
         break;
 
       case ")":
-        props.setKeypad((prev) => ({ ...prev, bracketIsClosing: false }));
+        props.setKeypad((prev) => ({
+          ...prev,
+          bracketCount: prev.bracketCount === 0 ? 0 : prev.bracketCount - 1,
+          bracketIsClosing: false,
+        }));
         break;
       default:
         if (
