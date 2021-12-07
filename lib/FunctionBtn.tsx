@@ -17,9 +17,17 @@ const FunctionBtn = (props: Props) => {
     switch (props.function) {
       case "AC":
         props.setInput("");
+        props.setKeypad((prev) => ({
+          ...prev,
+          bracketIsClosing: false,
+        }));
         break;
       case "DEL":
-        props.setInput((prev) => prev.slice(0, -1));
+        props.setInput((prev) =>
+          props.keypad.bracketIsClosing
+            ? prev.slice(0, -2) + ")"
+            : prev.slice(0, -1)
+        );
         break;
       case "=":
         props.setInput((prev) => {
@@ -33,26 +41,38 @@ const FunctionBtn = (props: Props) => {
           ...prev,
           funcDisabled: true,
           returnPressed: true,
+          bracketIsClosing: false,
         }));
         break;
-      case "( )":
+      case "(":
         props.setInput(
-          (prev) => `${prev} ${props.keypad.bracketIsClosing ? ")" : "("} `
+          (prev) => `${prev}(${props.keypad.bracketIsClosing ? "" : ")"}`
         );
         props.setKeypad((prev) => ({
           ...prev,
-          bracketIsClosing: !prev.bracketIsClosing,
+          bracketIsClosing: true,
         }));
         break;
-    }
+      case ")":
+        props.setKeypad((prev) => ({ ...prev, bracketIsClosing: false }));
+      default:
+        if (props.function === "+" || props.function === "-") {
+          props.setInput((prev) => prev + props.function);
+        } else if (props.function === "*" || props.function === "/") {
+          if (!props.keypad.funcDisabled) {
+            props.setInput((prev) => prev + props.function);
+            props.setKeypad((prev) => ({ ...prev, funcDisabled: true }));
+          }
+        }
 
-    if (props.function === "+" || props.function === "-") {
-      props.setInput((prev) => `${prev} ${props.function} `);
-    } else if (props.function === "*" || props.function === "/") {
-      if (!props.keypad.funcDisabled) {
-        props.setInput((prev) => `${prev} ${props.function} `);
-        props.setKeypad((prev) => ({ ...prev, funcDisabled: true }));
-      }
+        if (props.keypad.bracketIsClosing) {
+          props.setInput((prev) => {
+            const splitInput = prev.split(")");
+            console.log(splitInput);
+            return splitInput[0].trimEnd() + splitInput[1] + ")";
+          });
+        }
+        break;
     }
   }
 

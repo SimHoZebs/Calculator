@@ -19,6 +19,13 @@ const NumBtn = (props: Props) => {
       props.setInput((prev) => prev + `${props.value}`);
     }
     props.setKeypad((prev) => ({ ...prev, funcDisabled: false }));
+    if (props.keypad.bracketIsClosing) {
+      props.setInput((prev) => {
+        const splitInput = prev.split(")");
+        console.log(splitInput);
+        return splitInput[0] + splitInput[1] + ")";
+      });
+    }
   }
   return <BtnBase onClick={btnPress}>{props.value}</BtnBase>;
 };

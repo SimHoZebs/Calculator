@@ -14,7 +14,7 @@ export type Keypad = {
 
 const Keypad = (props: Props) => {
   const numArray = [7, 8, 9, 4, 5, 6, 1, 2, 3, 0, "."];
-  const topOperatoryArray = ["AC", "( )", "%"];
+  const topOperatoryArray = ["AC", "(", ")"];
   const operatorArray = ["=", "+", "-", "*", "/"].reverse();
   const [keypad, setKeypad] = useState({
     bracketIsClosing: false,
