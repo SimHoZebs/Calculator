@@ -55,19 +55,23 @@ const FunctionBtn = (props: Props) => {
           bracketIsClosing: false,
         }));
         break;
+
       default:
         if (
           (props.function === "*" || props.function === "/") &&
           !props.calc.funcDisabled
         ) {
+          handleInput(props.function, props.setInput, props.calc.bracketCount);
           props.setCalc((prev) => ({ ...prev, funcDisabled: true }));
         } else if (props.function === "(") {
           props.setCalc((prev) => ({
             ...prev,
             bracketCount: prev.bracketCount + 1,
           }));
+          handleInput(props.function, props.setInput, props.calc.bracketCount);
+        } else {
+          handleInput(props.function, props.setInput, props.calc.bracketCount);
         }
-        handleInput(props.function, props.setInput, props.calc.bracketCount);
 
         break;
     }
