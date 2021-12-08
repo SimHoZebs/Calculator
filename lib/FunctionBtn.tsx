@@ -18,6 +18,7 @@ const FunctionBtn = (props: Props) => {
       ...prev,
       bracketIsClosing: false,
       bracketCount: 0,
+      returnPressed: true,
       funcDisabled: true,
     }));
   }
@@ -72,6 +73,7 @@ const FunctionBtn = (props: Props) => {
         } else {
           handleInput(props.function, props.setInput, props.calc.bracketCount);
         }
+        props.setCalc((prev) => ({ ...prev, returnPressed: false }));
 
         break;
     }

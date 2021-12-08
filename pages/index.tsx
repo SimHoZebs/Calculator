@@ -15,7 +15,7 @@ export default function Home() {
   const [calc, setCalc] = useState({
     bracketIsClosing: false,
     funcDisabled: true,
-    returnPressed: false,
+    returnPressed: true,
     bracketCount: 0,
   });
 
