@@ -58,12 +58,15 @@ const FunctionBtn = (props: Props) => {
         break;
 
       default:
-        if (
-          (props.function === "*" || props.function === "/") &&
-          !props.calc.funcDisabled
-        ) {
-          handleInput(props.function, props.setInput, props.calc.bracketCount);
-          props.setCalc((prev) => ({ ...prev, funcDisabled: true }));
+        if (props.function === "*" || props.function === "/") {
+          if (!props.calc.funcDisabled) {
+            handleInput(
+              props.function,
+              props.setInput,
+              props.calc.bracketCount
+            );
+            props.setCalc((prev) => ({ ...prev, funcDisabled: true }));
+          }
         } else if (props.function === "(") {
           props.setCalc((prev) => ({
             ...prev,
