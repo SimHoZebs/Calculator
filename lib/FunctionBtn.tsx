@@ -75,6 +75,7 @@ const FunctionBtn = (props: Props) => {
           handleInput(props.function, props.setInput, props.calc.bracketCount);
         } else {
           handleInput(props.function, props.setInput, props.calc.bracketCount);
+          props.setCalc((prev) => ({ ...prev, funcDisabled: true }));
         }
         props.setCalc((prev) => ({ ...prev, returnPressed: false }));
 
