@@ -23,7 +23,7 @@ const NumBtn = (props: Props) => {
         props.calc.bracketCount
       );
     }
-    props.setCalc((prev) => ({ ...prev, funcDisabled: false }));
+    props.setCalc((prev) => ({ ...prev, complexOperationDisabled: false }));
   }
   return <BtnBase onClick={btnPress}>{props.value}</BtnBase>;
 };

@@ -2,9 +2,14 @@ import { useState, useEffect } from "react";
 import ColorModeToggleBtn from "../lib/ColorModeToggleBtn";
 import Keypad from "../lib/Keypad";
 
+/**
+ * Complex operation is multiply and divide;
+ * basic operation is add and subtract;
+ */
 export type Calc = {
   bracketIsClosing: boolean;
-  funcDisabled: boolean;
+  complexOperationDisabled: boolean;
+  basicOperationDisabled: boolean;
   returnPressed: boolean;
   bracketCount: number;
 };
@@ -12,9 +17,10 @@ export type Calc = {
 export default function Home() {
   const [input, setInput] = useState("");
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
-  const [calc, setCalc] = useState({
+  const [calc, setCalc] = useState<Calc>({
     bracketIsClosing: false,
-    funcDisabled: true,
+    complexOperationDisabled: true,
+    basicOperationDisabled: true,
     returnPressed: true,
     bracketCount: 0,
   });

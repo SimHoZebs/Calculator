@@ -15,11 +15,11 @@ const FunctionBtn = (props: Props) => {
   const [icon, setIcon] = useState<JSX.Element | string>("");
   function resetKeypad() {
     props.setCalc((prev) => ({
-      ...prev,
       bracketIsClosing: false,
+      basicOperationDisabled: false,
       bracketCount: 0,
       returnPressed: true,
-      funcDisabled: true,
+      complexOperationDisabled: true,
     }));
   }
 
@@ -58,26 +58,25 @@ const FunctionBtn = (props: Props) => {
         break;
 
       default:
-        if (props.function === "*" || props.function === "/") {
-          if (!props.calc.funcDisabled) {
-            handleInput(
-              props.function,
-              props.setInput,
-              props.calc.bracketCount
-            );
-            props.setCalc((prev) => ({ ...prev, funcDisabled: true }));
-          }
-        } else if (props.function === "(") {
+        if (props.function === "(") {
           props.setCalc((prev) => ({
             ...prev,
             bracketCount: prev.bracketCount + 1,
           }));
-          handleInput(props.function, props.setInput, props.calc.bracketCount);
-        } else {
-          handleInput(props.function, props.setInput, props.calc.bracketCount);
-          props.setCalc((prev) => ({ ...prev, funcDisabled: true }));
         }
-        props.setCalc((prev) => ({ ...prev, returnPressed: false }));
+
+        if (
+          (props.function !== "*" && props.function !== "/") ||
+          !props.calc.complexOperationDisabled
+        ) {
+          handleInput(props.function, props.setInput, props.calc.bracketCount);
+        }
+
+        props.setCalc((prev) => ({
+          ...prev,
+          complexOperationDisabled: true,
+          returnPressed: false,
+        }));
 
         break;
     }
