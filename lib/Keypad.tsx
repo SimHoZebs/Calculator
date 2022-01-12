@@ -70,7 +70,9 @@ export function handleInput(
       input = "()";
     }
 
-    if (bracketCount === 0) {
+    if ((prev + input).length > 15) {
+      return prev;
+    } else if (bracketCount === 0) {
       return prev + input;
     } else {
       return (
