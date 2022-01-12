@@ -31,11 +31,29 @@ const FunctionBtn = (props: Props) => {
         break;
 
       case "DEL":
-        props.setInput((prev) =>
-          props.calc.bracketIsClosing
-            ? prev.slice(0, -2) + ")"
-            : prev.slice(0, -1)
-        );
+        if (props.calc.bracketCount === 0) {
+          props.setInput((prev) => prev.slice(0, -1));
+        } else {
+          props.setInput((prev) => {
+            if (prev[prev.length - 1 - props.calc.bracketCount] === "(") {
+              props.setCalc((prev) => ({
+                ...prev,
+                //for some reason this line is running twice so I have to subtract half the amount???
+                bracketCount: prev.bracketCount - 0.5,
+              }));
+
+              return (
+                prev.slice(0, -1 - props.calc.bracketCount) +
+                ")".repeat(props.calc.bracketCount - 1)
+              );
+            } else {
+              return (
+                prev.slice(0, -1 - props.calc.bracketCount) +
+                ")".repeat(props.calc.bracketCount)
+              );
+            }
+          });
+        }
         break;
 
       case "=":
