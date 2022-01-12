@@ -44,22 +44,22 @@ export default function Home() {
             setIsDarkMode={setIsDarkMode}
           />
         </div>
+
         <div className="w-full h-full rounded-lg flex justify-end p-3 m-3 items-end bg-gray-200 dark:bg-gray-600">
-          <big className="text-7xl">
-            {input.split("").map((char, index) => {
-              if (
-                calc.bracketCount !== 0 &&
-                index >= input.length - calc.bracketCount
-              ) {
-                return (
-                  <span key={index} className="text-gray-500">
-                    {char}
-                  </span>
-                );
-              } else {
-                return <span key={index}>{char}</span>;
-              }
-            })}
+          <big className="text-7xl flex-wrap flex">
+            {input.split("").map((char, index) => (
+              <span
+                key={index}
+                className={
+                  calc.bracketCount !== 0 &&
+                  index >= input.length - calc.bracketCount
+                    ? "text-gray-500"
+                    : ""
+                }
+              >
+                {char}
+              </span>
+            ))}
           </big>
         </div>
       </section>
