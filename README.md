@@ -1,21 +1,17 @@
-# Progressive Web App Example
+## Introduction
 
-This example uses [`next-pwa`](https://github.com/shadowwalker/next-pwa) to create a progressive web app (PWA) powered by [Workbox](https://developers.google.com/web/tools/workbox/).
+The project is a simple calculator that can be downloaded as a PWA.
 
-## Deploy your own
+## Motivation
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+The main motivation was to understand how a PWA works and learn how to properly implement it in to my tech stack.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/progressive-web-app&project-name=progressive-web-app&repository-name=progressive-web-app)
+## Decisions
 
-## How to use
+### Technologies
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+#### Windi CSS
 
-```bash
-npx create-next-app --example progressive-web-app progressive-web-app
-# or
-yarn create next-app --example progressive-web-app progressive-web-app
-```
+Initially, MUI was chosen as the UI framework, till I realized that building my own components would be faster than customizing MUI to fit the project.
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+For more details on this decision, please refer to <a href="https://simhozebs.notion.site/Tailwind-Windi-197ec217ee6143c7a4c92c2cb2bd940a">this page I wrote</a>
