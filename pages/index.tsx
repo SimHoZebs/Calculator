@@ -6,7 +6,7 @@ import Keypad from "../lib/Keypad";
  * Complex operation is multiply and divide;
  * basic operation is add and subtract;
  */
-export type Calc = {
+export type CalcState = {
   bracketIsClosing: boolean;
   complexOperationDisabled: boolean;
   basicOperationDisabled: boolean;
@@ -17,13 +17,36 @@ export type Calc = {
 export default function Home() {
   const [input, setInput] = useState("");
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
-  const [calc, setCalc] = useState<Calc>({
+  const [calcState, setCalcState] = useState<CalcState>({
     bracketIsClosing: false,
     complexOperationDisabled: true,
     basicOperationDisabled: true,
     returnPressed: true,
     bracketCount: 0,
   });
+
+  /**
+   * handles how button presses affect display output and calculator state.
+   */
+  function convertToOutput(input: string) {
+    setInput((prev) => {
+      if (input === "(") {
+        input = "()";
+      }
+
+      if ((prev + input).length > 15) {
+        return prev;
+      } else if (calcState.bracketCount === 0) {
+        return prev + input;
+      } else {
+        return (
+          prev.slice(0, prev.length - calcState.bracketCount) +
+          input +
+          ")".repeat(calcState.bracketCount)
+        );
+      }
+    });
+  }
 
   useEffect(() => {
     if (localStorage.theme === "dark") {
@@ -51,8 +74,8 @@ export default function Home() {
               <span
                 key={index}
                 className={
-                  calc.bracketCount !== 0 &&
-                  index >= input.length - calc.bracketCount
+                  calcState.bracketCount !== 0 &&
+                  index >= input.length - calcState.bracketCount
                     ? "text-gray-500"
                     : ""
                 }
@@ -64,7 +87,12 @@ export default function Home() {
         </div>
       </section>
 
-      <Keypad setInput={setInput} calc={calc} setCalc={setCalc} />
+      <Keypad
+        processForOutput={convertToOutput}
+        setInput={setInput}
+        calc={calcState}
+        setCalc={setCalcState}
+      />
     </div>
   );
 }

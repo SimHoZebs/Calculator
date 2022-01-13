@@ -1,14 +1,14 @@
 import React, { Dispatch, SetStateAction } from "react";
 import BtnBase from "./BtnBase";
-import { handleInput } from "./Keypad";
-import { Calc } from "../pages";
+import { CalcState } from "../pages";
 
 export interface Props {
   isOperator?: boolean;
   setInput: React.Dispatch<React.SetStateAction<string>>;
   value: string | number;
-  calc: Calc;
-  setCalc: Dispatch<SetStateAction<Calc>>;
+  calc: CalcState;
+  setCalc: Dispatch<SetStateAction<CalcState>>;
+  convertToOutput: (input: string) => void;
 }
 
 const NumBtn = (props: Props) => {
@@ -17,11 +17,7 @@ const NumBtn = (props: Props) => {
       props.setCalc((prev) => ({ ...prev, returnPressed: false }));
       props.setInput(`${props.value}`);
     } else {
-      handleInput(
-        props.value.toString(),
-        props.setInput,
-        props.calc.bracketCount
-      );
+      props.convertToOutput(props.value.toString());
     }
     props.setCalc((prev) => ({ ...prev, complexOperationDisabled: false }));
   }

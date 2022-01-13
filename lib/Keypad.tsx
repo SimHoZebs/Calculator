@@ -1,12 +1,13 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import NumBtn from "./NumBtn";
 import FunctionBtn from "./FunctionBtn";
-import { Calc } from "../pages";
+import { CalcState } from "../pages";
 
 interface Props {
   setInput: React.Dispatch<React.SetStateAction<string>>;
-  calc: Calc;
-  setCalc: Dispatch<SetStateAction<Calc>>;
+  calc: CalcState;
+  setCalc: Dispatch<SetStateAction<CalcState>>;
+  processForOutput: (input: string) => void;
 }
 
 const Keypad = (props: Props) => {
@@ -22,8 +23,9 @@ const Keypad = (props: Props) => {
             key={index}
             function={operator}
             setInput={props.setInput}
-            calc={props.calc}
-            setCalc={props.setCalc}
+            calcState={props.calc}
+            setCalcState={props.setCalc}
+            processForOutput={props.processForOutput}
           />
         ))}
 
@@ -34,14 +36,16 @@ const Keypad = (props: Props) => {
             setInput={props.setInput}
             calc={props.calc}
             setCalc={props.setCalc}
+            convertToOutput={props.processForOutput}
           />
         ))}
 
         <FunctionBtn
           function="DEL"
           setInput={props.setInput}
-          calc={props.calc}
-          setCalc={props.setCalc}
+          calcState={props.calc}
+          setCalcState={props.setCalc}
+          processForOutput={props.processForOutput}
         />
       </div>
 
@@ -51,37 +55,14 @@ const Keypad = (props: Props) => {
             key={index}
             function={operator}
             setInput={props.setInput}
-            calc={props.calc}
-            setCalc={props.setCalc}
+            calcState={props.calc}
+            setCalcState={props.setCalc}
+            processForOutput={props.processForOutput}
           />
         ))}
       </div>
     </section>
   );
 };
-
-export function handleInput(
-  input: string,
-  setInput: Dispatch<SetStateAction<string>>,
-  bracketCount: number
-) {
-  setInput((prev) => {
-    if (input === "(") {
-      input = "()";
-    }
-
-    if ((prev + input).length > 15) {
-      return prev;
-    } else if (bracketCount === 0) {
-      return prev + input;
-    } else {
-      return (
-        prev.slice(0, prev.length - bracketCount) +
-        input +
-        ")".repeat(bracketCount)
-      );
-    }
-  });
-}
 
 export default Keypad;

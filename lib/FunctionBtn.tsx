@@ -1,20 +1,20 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import BtnBase from "./BtnBase";
 import { add, backspace, multiply, subtract } from "./Icons";
-import { handleInput } from "./Keypad";
-import { Calc } from "../pages";
+import { CalcState } from "../pages";
 
 interface Props {
   function: string;
   setInput: Dispatch<SetStateAction<string>>;
-  calc: Calc;
-  setCalc: Dispatch<SetStateAction<Calc>>;
+  calcState: CalcState;
+  setCalcState: Dispatch<SetStateAction<CalcState>>;
+  processForOutput: (input: string) => void;
 }
 
 const FunctionBtn = (props: Props) => {
   const [icon, setIcon] = useState<JSX.Element | string>("");
-  function resetKeypad() {
-    props.setCalc((prev) => ({
+  function resetCalcState() {
+    props.setCalcState((prev) => ({
       bracketIsClosing: false,
       basicOperationDisabled: false,
       bracketCount: 0,
@@ -27,29 +27,28 @@ const FunctionBtn = (props: Props) => {
     switch (props.function) {
       case "AC":
         props.setInput("");
-        resetKeypad();
+        resetCalcState();
         break;
 
       case "DEL":
-        if (props.calc.bracketCount === 0) {
+        if (props.calcState.bracketCount === 0) {
           props.setInput((prev) => prev.slice(0, -1));
         } else {
           props.setInput((prev) => {
-            if (prev[prev.length - 1 - props.calc.bracketCount] === "(") {
-              props.setCalc((prev) => ({
+            if (prev[prev.length - 1 - props.calcState.bracketCount] === "(") {
+              props.setCalcState((prev) => ({
                 ...prev,
-                //for some reason this line is running twice so I have to subtract half the amount???
-                bracketCount: prev.bracketCount - 0.5,
+                bracketCount: prev.bracketCount - 1,
               }));
 
               return (
-                prev.slice(0, -1 - props.calc.bracketCount) +
-                ")".repeat(props.calc.bracketCount - 1)
+                prev.slice(0, -1 - props.calcState.bracketCount) +
+                ")".repeat(props.calcState.bracketCount - 1)
               );
             } else {
               return (
-                prev.slice(0, -1 - props.calc.bracketCount) +
-                ")".repeat(props.calc.bracketCount)
+                prev.slice(0, -1 - props.calcState.bracketCount) +
+                ")".repeat(props.calcState.bracketCount)
               );
             }
           });
@@ -64,11 +63,11 @@ const FunctionBtn = (props: Props) => {
             return "invalid syntax";
           }
         });
-        resetKeypad();
+        resetCalcState();
         break;
 
       case ")":
-        props.setCalc((prev) => ({
+        props.setCalcState((prev) => ({
           ...prev,
           bracketCount: prev.bracketCount === 0 ? 0 : prev.bracketCount - 1,
           bracketIsClosing: false,
@@ -77,7 +76,7 @@ const FunctionBtn = (props: Props) => {
 
       default:
         if (props.function === "(") {
-          props.setCalc((prev) => ({
+          props.setCalcState((prev) => ({
             ...prev,
             bracketCount: prev.bracketCount + 1,
           }));
@@ -85,12 +84,12 @@ const FunctionBtn = (props: Props) => {
 
         if (
           (props.function !== "*" && props.function !== "/") ||
-          !props.calc.complexOperationDisabled
+          !props.calcState.complexOperationDisabled
         ) {
-          handleInput(props.function, props.setInput, props.calc.bracketCount);
+          props.processForOutput(props.function);
         }
 
-        props.setCalc((prev) => ({
+        props.setCalcState((prev) => ({
           ...prev,
           complexOperationDisabled: true,
           returnPressed: false,
